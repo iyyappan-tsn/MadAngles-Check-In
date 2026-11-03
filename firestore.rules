@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Team members' emails (firebase-config.js la irukkura same list).
+    function allowed() {
+      return request.auth != null
+        && request.auth.token.email in [
+          'iyyappan.tsn@gmail.com',
+          'arulmani.ayyappan@gmail.com',
+          'maryesabella2008@gmail.com',
+          'mthabeeb2008@gmail.com',
+          'm.s.tamilan3050h@gmail.com',
+          'dharanitharan764@gmail.com'
+        ];
+    }
+
+    match /users/{uid} {
+      allow read: if allowed();
+      allow write: if allowed() && request.auth.uid == uid;
+    }
+
+    // Oru naalaiku oru log mattum: doc id = uid_date. Create mattum, edit/delete illa.
+    match /logs/{id} {
+      allow read: if allowed();
+      allow create: if allowed()
+        && request.resource.data.uid == request.auth.uid
+        && id == request.auth.uid + '_' + request.resource.data.date;
+      allow update, delete: if false;
+    }
+  }
+}

@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MadAngles · Daily LeetCode</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#050a07; --g:#3dff7a; --g2:#1fbf55; --dim:#2fa862; --mut:#7bd69c;
+    --amber:#ffb84d; --red:#ff6b6b; --fill:#0f3d1d66; --line:#1f6b3a;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--bg)}
+  body{
+    margin:0; min-height:100vh; padding:14px;
+    background:radial-gradient(ellipse at 50% 0%, #0d2f19 0%, #050a07 62%);
+    color:var(--g); font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace; font-size:14px; line-height:1.5;
+  }
+  body::after{ /* subtle scanlines */
+    content:""; position:fixed; inset:0; pointer-events:none;
+    background:repeating-linear-gradient(to bottom, transparent 0 2px, #00000026 2px 3px);
+  }
+  .term{
+    max-width:780px; margin:0 auto; padding:20px 18px 24px;
+    border:2px dashed var(--g); border-radius:6px; background:#07110bd9;
+    box-shadow:0 0 26px #3dff7a33, inset 0 0 44px #3dff7a0f;
+  }
+  header{display:flex; justify-content:space-between; align-items:flex-end; gap:10px; flex-wrap:wrap}
+  h1{
+    margin:0; font-family:'Press Start 2P',monospace; font-weight:400;
+    font-size:clamp(18px,6.2vw,34px); letter-spacing:1px; color:var(--g);
+    text-shadow:0 0 10px #3dff7a99, 0 0 28px #3dff7a55;
+  }
+  .cur{display:inline-block; width:.55em; height:.9em; background:var(--g); margin-left:6px; vertical-align:-.05em; animation:blink 1s steps(2,start) infinite}
+  @keyframes blink{to{visibility:hidden}}
+  @media (prefers-reduced-motion:reduce){.cur{animation:none}}
+  hr.dash{border:0; border-top:1px dashed var(--dim); margin:16px 0 18px}
+  #who{display:flex; align-items:center; gap:10px; font-size:12px; color:var(--mut)}
+  .hide{display:none !important}
+
+  .card{padding:0 0 18px; margin-bottom:18px; border-bottom:1px dashed var(--line)}
+  .card:last-child{border-bottom:0; margin-bottom:0; padding-bottom:0}
+  h2{margin:0 0 12px; font-size:14px; font-weight:700}
+  h2::before{content:"me@madangles:~$ "; color:var(--dim); font-weight:600}
+  .note{font-size:12px; color:var(--mut)}
+  .boot{font-size:13px; margin:2px 0}
+  .boot b{color:var(--g)}
+  pre.art{margin:14px 0; color:var(--dim); font-size:12px; line-height:1.15; text-shadow:0 0 6px #3dff7a55}
+
+  button{
+    background:var(--g); color:#031007; border:0; border-radius:3px; padding:10px 18px;
+    font:700 14px 'JetBrains Mono',monospace; cursor:pointer; box-shadow:0 0 12px #3dff7a66;
+  }
+  button:hover{background:#6dffa0}
+  button.ghost{background:transparent; color:var(--mut); border:1px dashed var(--dim); box-shadow:none; padding:6px 10px; font-size:12px}
+  button:disabled{opacity:.5; cursor:not-allowed}
+  button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--g); outline-offset:2px}
+
+  input[type=number]{
+    width:76px; padding:9px; border:1px dashed var(--g); border-radius:3px;
+    background:var(--fill); color:var(--g); font:600 15px 'JetBrains Mono',monospace;
+  }
+  textarea{
+    width:100%; min-height:64px; padding:10px; border:1px dashed var(--g); border-radius:3px;
+    background:var(--fill); color:var(--g); font:400 14px 'JetBrains Mono',monospace; caret-color:var(--g); resize:vertical;
+  }
+  textarea::placeholder{color:#2fa86299}
+
+  label.chk{
+    display:inline-flex; gap:10px; align-items:center; cursor:pointer; margin-bottom:14px;
+    padding:10px 14px; border:1px solid var(--g); border-radius:3px; background:var(--fill);
+    box-shadow:0 0 10px #3dff7a33; font-size:14px;
+  }
+  label.chk input{
+    appearance:none; -webkit-appearance:none; width:16px; height:16px; margin:0; flex:none;
+    border:2px solid var(--g); border-radius:50%; background:transparent; cursor:pointer;
+  }
+  label.chk input:checked{background:var(--g); box-shadow:inset 0 0 0 3px #07110b}
+
+  .row{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:12px}
+  .row div{display:flex; flex-direction:column; gap:4px; font-size:12px; color:var(--mut)}
+  .q{margin-bottom:14px}
+  .q p{margin:0 0 6px; font-size:13px}
+  .q p::before{content:"> "; color:var(--dim)}
+  .timer{color:var(--amber); font-weight:700; font-variant-numeric:tabular-nums}
+
+  .tw{overflow-x:auto}
+  table{width:100%; border-collapse:collapse}
+  th,td{padding:9px 6px; text-align:left; border-bottom:1px dashed #1a4a2c; font-size:13px; white-space:nowrap}
+  th{color:var(--dim); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.06em}
+  td.num,th.num{text-align:right}
+  tr.me{background:#3dff7a14}
+  tr.me td:nth-child(2){font-weight:700}
+  .av{width:22px; height:22px; border-radius:50%; vertical-align:middle; margin-right:8px; border:1px solid var(--g)}
+  .pill{font-size:11px; padding:1px 8px; border:1px solid var(--g); border-radius:2px; color:var(--g)}
+  .pill.no{border-color:var(--amber); color:var(--amber)}
+  #done .pill{font-size:13px; padding:6px 10px; display:inline-block}
+
+  details{margin-bottom:8px; border:1px dashed var(--line); border-radius:3px; padding:8px 10px}
+  summary{cursor:pointer; color:var(--g)}
+  details p{margin:8px 0 0; color:var(--mut); font-size:13px}
+  details p b{color:var(--g); font-weight:600}
+
+  #login{text-align:left}
+  #err{color:var(--red); margin:10px 0 0; white-space:normal}
+</style>
+</head>
+<body>
+<div class="term">
+  <header>
+    <h1>MAD_ANGLES<span class="cur" aria-hidden="true"></span></h1>
+    <div id="who" class="hide"><span id="uname"></span> <button class="ghost" id="logout">logout</button></div>
+  </header>
+  <hr class="dash">
+
+  <div id="login" class="card">
+    <p class="boot">me@madangles:~$ booting up...</p>
+    <p class="boot"><b>[ OK ]</b> initializing daily session...</p>
+    <p class="boot"><b>[ OK ]</b> team gate: 7 members only</p>
+    <pre class="art" aria-hidden="true">      /|
+     / |
+    /  |   90&deg;
+   /___|______</pre>
+    <p class="boot">me@madangles:~$ auth --google</p>
+    <button id="loginBtn">Sign in with Google</button>
+    <p id="err"></p>
+  </div>
+
+  <div id="app" class="hide">
+    <div class="card" id="checkin">
+      <h2>checkin <span id="today" class="note"></span></h2>
+      <div id="done" class="hide"><span class="pill">[ OK ] today's check-in submitted. nalla velai!</span></div>
+      <div id="form">
+        <label class="chk"><input type="checkbox" id="solved"> [inniku LeetCode problems pannitten]</label>
+        <div id="details" class="hide">
+          <div class="row">
+            <div>easy<input type="number" id="easy" min="0" max="20" value="0"></div>
+            <div>medium<input type="number" id="med" min="0" max="20" value="0"></div>
+            <div>hard<input type="number" id="hard" min="0" max="20" value="0"></div>
+          </div>
+          <p class="note">points: easy 1 · medium 2 · hard 3</p>
+          <button id="startQuiz">next: 3 quick questions</button>
+        </div>
+        <div id="quiz" class="hide">
+          <p class="note">unga solution pathi, unga sondha words-la. 60 sec mattum. <span class="timer" id="timer">60</span>s · paste off.</p>
+          <div id="qs"></div>
+          <button id="submit">Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>leaderboard --top</h2>
+      <div class="tw">
+        <table>
+          <thead><tr><th>#</th><th>Name</th><th class="num">Points</th><th class="num">Solved</th><th class="num">Streak</th><th>Today</th></tr></thead>
+          <tbody id="board"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>cat answers_today.log</h2>
+      <div id="answers" class="note">Loading...</div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, collection, onSnapshot, query, orderBy, where, increment, writeBatch, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { firebaseConfig, ALLOWED_EMAILS } from "./firebase-config.js";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const $ = id => document.getElementById(id);
+
+const QUESTION_POOL = [
+  "Unga solution-oda time complexity enna? Yen?",
+  "Space complexity enna? Kuraikka mudiyumaa?",
+  "Edha data structure use pannenga, yen adha choose pannenga?",
+  "Brute force approach enna, adhula irundhu epdi optimize pannenga?",
+  "Edha edge case-ala first attempt fail aachu / fail aagalaam?",
+  "Idha ennoda 10 vayasu thambikku epdi explain pannuveenga?",
+  "Indha problem-la sikkina mudhal idam enna? Epdi solve pannenga?",
+  "Idhe pattern vera edhavadhu problem-la use panna mudiyumaa? Edhu?",
+  "Input size 10^6 aanaal unga solution work aagumaa? Yen?",
+  "Unga code-la oru line remove pannaal enna aagum? Edhu critical line?",
+  "Recursion / iteration / DP edhu use pannenga, yen?",
+  "Indha problem-ku vera oru approach irukka? Adhoda trade-off enna?"
+];
+
+const todayStr = (d = new Date()) => d.toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
+const yesterdayStr = () => todayStr(new Date(Date.now() - 864e5));
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+
+// Same 3 questions all day for a person (refresh pannina maaradhu)
+function pickQuestions(seedStr) {
+  let h = 0; for (const c of seedStr) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  const rnd = () => (h = (h * 1664525 + 1013904223) >>> 0) / 4294967296;
+  const a = [...QUESTION_POOL];
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a.slice(0, 3);
+}
+
+let user = null, timerId = null, questions = [], startedAt = 0;
+let unsubBoard = null, unsubLogs = null;
+
+$("loginBtn").onclick = async () => {
+  $("err").textContent = "";
+  try { await signInWithPopup(auth, new GoogleAuthProvider()); }
+  catch (e) { $("err").textContent = "Login fail: " + e.message; }
+};
+$("logout").onclick = () => signOut(auth);
+
+onAuthStateChanged(auth, async u => {
+  if (!u) {
+    user = null; unsubBoard?.(); unsubLogs?.();
+    $("login").classList.remove("hide"); $("app").classList.add("hide"); $("who").classList.add("hide");
+    return;
+  }
+  if (!ALLOWED_EMAILS.map(e => e.toLowerCase()).includes((u.email || "").toLowerCase())) {
+    $("err").textContent = "Indha email MadAngles team-la illa: " + u.email;
+    await signOut(auth); return;
+  }
+  user = u;
+  $("login").classList.add("hide"); $("app").classList.remove("hide"); $("who").classList.remove("hide");
+  $("uname").textContent = u.displayName;
+  $("today").textContent = "· " + todayStr();
+  await refreshCheckin();
+  listenBoard(); listenAnswers();
+});
+
+async function refreshCheckin() {
+  const snap = await getDoc(doc(db, "logs", `${user.uid}_${todayStr()}`));
+  $("done").classList.toggle("hide", !snap.exists());
+  $("form").classList.toggle("hide", snap.exists());
+}
+
+$("solved").onchange = e => $("details").classList.toggle("hide", !e.target.checked);
+
+$("startQuiz").onclick = () => {
+  const total = +$("easy").value + +$("med").value + +$("hard").value;
+  if (total < 1) return alert("Kuranjathu 1 problem count podunga.");
+  questions = pickQuestions(user.uid + todayStr());
+  $("qs").innerHTML = questions.map((q, i) =>
+    `<div class="q"><p>${i + 1}. ${esc(q)}</p><textarea data-i="${i}" maxlength="500" placeholder="type your answer..."></textarea></div>`).join("");
+  document.querySelectorAll("#qs textarea").forEach(t => {
+    ["paste", "drop", "contextmenu"].forEach(ev => t.addEventListener(ev, e => e.preventDefault()));
+  });
+  $("details").classList.add("hide"); $("quiz").classList.remove("hide");
+  startedAt = Date.now();
+  let left = 60; $("timer").textContent = left;
+  clearInterval(timerId);
+  timerId = setInterval(() => { left--; $("timer").textContent = Math.max(left, 0); if (left <= 0) clearInterval(timerId); }, 1000);
+};
+
+$("submit").onclick = async () => {
+  const answers = [...document.querySelectorAll("#qs textarea")].map(t => t.value.trim());
+  if (answers.some(a => a.length < 10)) return alert("Ovvoru answer-um konjam explain pannunga (10+ characters).");
+  clearInterval(timerId);
+  $("submit").disabled = true;
+  const easy = +$("easy").value, med = +$("med").value, hard = +$("hard").value;
+  const solved = easy + med + hard, points = easy + 2 * med + 3 * hard;
+  const date = todayStr();
+  try {
+    const uref = doc(db, "users", user.uid);
+    const usnap = await getDoc(uref);
+    const prev = usnap.exists() ? usnap.data() : {};
+    const streak = prev.lastDate === yesterdayStr() ? (prev.streak || 0) + 1 : 1;
+    const batch = writeBatch(db);
+    batch.set(doc(db, "logs", `${user.uid}_${date}`), {
+      uid: user.uid, name: user.displayName, date, easy, med, hard, solved, points,
+      questions, answers, secondsTaken: Math.round((Date.now() - startedAt) / 1000),
+      createdAt: serverTimestamp()
+    });
+    batch.set(uref, {
+      name: user.displayName, photo: user.photoURL || "",
+      points: increment(points), totalSolved: increment(solved),
+      streak, lastDate: date
+    }, { merge: true });
+    await batch.commit();
+    $("quiz").classList.add("hide");
+    await refreshCheckin();
+  } catch (e) { alert("Save aagala: " + e.message); $("submit").disabled = false; }
+};
+
+function listenBoard() {
+  unsubBoard?.();
+  unsubBoard = onSnapshot(query(collection(db, "users"), orderBy("points", "desc")), snap => {
+    const t = todayStr();
+    $("board").innerHTML = snap.docs.map((d, i) => {
+      const u = d.data();
+      return `<tr class="${d.id === user.uid ? "me" : ""}">
+        <td>${i + 1}</td>
+        <td>${u.photo ? `<img class="av" src="${esc(u.photo)}" referrerpolicy="no-referrer" alt="">` : ""}${esc(u.name)}</td>
+        <td class="num">${u.points || 0}</td><td class="num">${u.totalSolved || 0}</td>
+        <td class="num">${u.streak || 0}🔥</td>
+        <td>${u.lastDate === t ? '<span class="pill">✓</span>' : '<span class="pill no">pending</span>'}</td></tr>`;
+    }).join("") || `<tr><td colspan="6" class="note">Yaarum innum check-in pannala.</td></tr>`;
+  });
+}
+
+function listenAnswers() {
+  unsubLogs?.();
+  unsubLogs = onSnapshot(query(collection(db, "logs"), where("date", "==", todayStr())), snap => {
+    $("answers").innerHTML = snap.docs.map(d => {
+      const l = d.data();
+      return `<details><summary>${esc(l.name)} · ${l.solved} solved · ${l.secondsTaken}s</summary>
+        ${l.questions.map((q, i) => `<p><b>${esc(q)}</b><br>${esc(l.answers[i])}</p>`).join("")}</details>`;
+    }).join("") || "Innum yaarum submit pannala.";
+  });
+}
+</script>
+</body>
+</html>
