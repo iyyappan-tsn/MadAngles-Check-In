@@ -117,9 +117,9 @@
   <hr class="dash">
 
   <div id="login" class="card">
-    <p class="boot">me@madangles:~$ booting up...</p>
+    <p class="boot">me@madangles:~$ booting up --kibo </p>
     <p class="boot"><b>[ OK ]</b> initializing daily session...</p>
-    <p class="boot"><b>[ OK ]</b> team gate: 7 members only</p>
+    <p class="boot"><b>[ OK ]</b> team gate: 8 members only</p>
     <pre class="art" aria-hidden="true">      /|
      / |
     /  |   90&deg;
@@ -132,9 +132,9 @@
   <div id="app" class="hide">
     <div class="card" id="checkin">
       <h2>checkin <span id="today" class="note"></span></h2>
-      <div id="done" class="hide"><span class="pill">[ OK ] today's check-in submitted. nalla velai!</span></div>
+      <div id="done" class="hide"><span class="pill">[ OK ] today's check-in submitted. good job!</span></div>
       <div id="form">
-        <label class="chk"><input type="checkbox" id="solved"> [inniku LeetCode problems pannitten]</label>
+        <label class="chk"><input type="checkbox" id="solved"> [yeah im completed]</label>
         <div id="details" class="hide">
           <div class="row">
             <div>easy<input type="number" id="easy" min="0" max="20" value="0"></div>
@@ -142,10 +142,10 @@
             <div>hard<input type="number" id="hard" min="0" max="20" value="0"></div>
           </div>
           <p class="note">points: easy 1 · medium 2 · hard 3</p>
-          <button id="startQuiz">next: 3 quick questions</button>
+          <button id="startQuiz">next</button>
         </div>
         <div id="quiz" class="hide">
-          <p class="note">unga solution pathi, unga sondha words-la. 60 sec mattum. <span class="timer" id="timer">60</span>s · paste off.</p>
+          <p class="note">Some questions related to your task. explain it in 60 sec. <span class="timer" id="timer">60</span>s · paste off.</p>
           <div id="qs"></div>
           <button id="submit">Submit</button>
         </div>
@@ -186,10 +186,10 @@ const QUESTION_POOL = [
   "Edha data structure use pannenga, yen adha choose pannenga?",
   "Brute force approach enna, adhula irundhu epdi optimize pannenga?",
   "Edha edge case-ala first attempt fail aachu / fail aagalaam?",
-  "Idha ennoda 10 vayasu thambikku epdi explain pannuveenga?",
-  "Indha problem-la sikkina mudhal idam enna? Epdi solve pannenga?",
+  "Explain pannuveenga?",
+  "Indha problem-la kashtama irundha idam enna? Epdi solve pannenga?",
   "Idhe pattern vera edhavadhu problem-la use panna mudiyumaa? Edhu?",
-  "Input size 10^6 aanaal unga solution work aagumaa? Yen?",
+  "Input size or value change aanaa unga solution work aagumaa? Yen?",
   "Unga code-la oru line remove pannaal enna aagum? Edhu critical line?",
   "Recursion / iteration / DP edhu use pannenga, yen?",
   "Indha problem-ku vera oru approach irukka? Adhoda trade-off enna?"
